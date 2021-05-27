@@ -17,9 +17,6 @@ public class KafkaStormSample {
         config.setDebug(true);
 
         config.put(Config.TOPOLOGY_MAX_SPOUT_PENDING, 1);
-//      TOPOLOGY_WORKERS: How many worker processes to create for the topology across machines in the cluster
-        config.put(Config.TOPOLOGY_WORKERS, 1);
-
 
         KafkaConfig kafkaConfig = new KafkaConfig();
 
@@ -35,10 +32,7 @@ public class KafkaStormSample {
         builder.setBolt("word-spitter", new SplitBolt()).shuffleGrouping("kafka-spout");
         builder.setBolt("word-counter", new CountBolt()).shuffleGrouping("word-spitter");
 
-//      parallelism hint means the initial number of executor (threads) of a component.
-//      OR How many executors to spawn per component.
-        builder.setBolt("kafka-bolt", kafkaBolt, 1)
-                .setNumTasks(2) //How many tasks to create per component.
+        builder.setBolt("kafka-bolt", kafkaBolt)
                 .fieldsGrouping("word-counter", new Fields("FirstName", "LastName", "Designation"));
 
         LocalCluster cluster = new LocalCluster();
