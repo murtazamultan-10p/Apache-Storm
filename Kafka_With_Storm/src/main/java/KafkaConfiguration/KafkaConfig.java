@@ -16,10 +16,10 @@ import java.util.UUID;
 
 public class KafkaConfig {
 
-    private String zkConnString =  "localhost:2181";
+    private final String zkConnString =  "localhost:2181";
     private final String topicKafkaSpout = "kafka-with-storm";
     private final String topicKafkaBolt = "kafka-with-storm-receiver";
-    private String serverStringKafkaBolt = "localhost:9092";
+    private final String serverStringKafkaBolt = "localhost:9092";
 
     public SpoutConfig getkafkaSpoutConfig(){
         BrokerHosts hosts = new ZkHosts(zkConnString);
